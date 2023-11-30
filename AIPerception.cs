@@ -1,7 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class AIPerception {
 
@@ -79,9 +78,7 @@ public class AIPerception {
 
     void HandlePlayerTarget(GameObject playerObject) {
         self.memory.UpdatePlayerLocation(playerObject.transform.position);
-        // if(!self.decisions.hasOrder){
             self.decisions.AddToPriorityQueue(PriorityEvents.AttackPlayer);
-        // }
     }
 
     void HandlePoITarget(GameObject poiObject) {
@@ -96,7 +93,12 @@ public class AIPerception {
 
     void HandleEnemyTarget(GameObject enemyObject) {
         AIMaster ally = enemyObject.GetComponent<AIMaster>();
-        if (self.AI_ID != ally.AI_ID && self.group.groupID != ally.group.groupID && self.group.CheckForGroup(ally)) {
+        
+        if (self.AI_ID == ally.AI_ID && (ally == null || ally.group == null)) {
+            return;
+        }
+
+        if (ally.group != null && self.group != null && self.group.groupID != ally.group.groupID && self.group.CheckForGroup(ally)) {
             HandleGroupInteraction(ally);
         }
     }
