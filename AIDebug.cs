@@ -26,6 +26,7 @@ public class AIDebug {
         textComponent.alignment = TextAlignment.Center; // Text alignment
         textComponent.color = Color.white; // Text color
         textComponent.transform.position = self.transform.position; // Position above the GameObject
+        
         // textMeshes.Add(textComponent);
     }
 
@@ -34,6 +35,7 @@ public class AIDebug {
         textGameObject.transform.parent = self.transform;
         textGameObject.name = "DebugTitle_text";
         TextMesh textComponent = textGameObject.AddComponent<TextMesh>();
+        textGameObject.transform.localScale = new Vector3(-1, 1, 1);
         // Set up initial text properties
         textComponent.text = "AI State: Initializing"; // Initial text
         textComponent.characterSize = 0.1f; // Text size
@@ -46,6 +48,7 @@ public class AIDebug {
     }
 
     public void UpdateAIStateText(AIState newState) {
+        AIStateDebug.transform.LookAt(Camera.main.transform.position);
         if (AIStateDebug != null) {
             AIStateDebug.text = $"AI State: {newState}" ;
         }
